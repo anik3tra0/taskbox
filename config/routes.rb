@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :billings
   resources :contact_managers
   resources :categories
   resources :vendors

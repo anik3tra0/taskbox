@@ -1,0 +1,78 @@
+<h3><%= raw(@client.name) %></h3>
+<p><b><%= @client.company %> - <%= @client.email %></b></p>
+<%= link_to "edit", edit_client_path(@client) %> | 
+<%= link_to "delete record", client_path(@client), method: :delete, data: {confirm: "Are you sure?"} %>
+| 
+<%= link_to "Show Json", client_path(@client, format: "json") %>
+| 
+<%= link_to "Show Xml", client_path(@client, format: "xml") %>
+
+
+<% if @client.projects.empty? %>
+ <h3>No project found, Add your first project </h3>
+<% else %>
+	<h3>Projects for <%= @client.name %></h3>
+	<ul>
+	<% @client.projects.each do |project| %>
+		<li><%= project.name %></li>
+	<% end %>
+	</ul>
+<% end %>
+
+<% if !@new_projects.empty? %>
+<h3>New</h3>
+	<ul>
+		<% @new_projects.each do |project| %>
+			<li><b><%= project.name %></b></li>	
+			<h4>Over due Tasks</h4>
+				<ul>
+					<% project.tasks.where('is_completed = ? AND due_date < ?', false, Date.today).each do |task| %>
+					<li><%= task.name %> - <%= task.due_date %></li>
+					<% end %>
+				</ul>
+			<h4>Completed Tasks</h4>
+				<ul>
+					<% project.tasks.where('is_completed = ?', true).each do |task| %>
+					<li><%= task.name %></li>
+					<% end %>
+				</ul>
+			<h4>Incomplete Tasks</h4>
+			<ul>
+					<% project.tasks.where('is_completed = ? AND due_date >= ?', false, Date.today).each do |task| %>
+					<li><%= task.name %></li>
+					<% end %>
+				</ul>
+		<% end %>
+	</ul>
+<% end %>
+
+<% if !@on_going_projects.empty? %>
+<h3>On-going</h3>
+<ul>
+		<% @on_going_projects.each do |project| %>
+			<li><%= project.name %></li>	
+		<% end %>
+	</ul>
+<% end %>
+
+
+<% if !@completed_projects.empty? %>
+<h3>Completed</h3>
+<ul>
+		<% @completed_projects.each do |project| %>
+			<li><%= project.name %></li>	
+		<% end %>
+	</ul>
+<% end %>
+
+
+<% if !@archieved_projects.empty? %>
+<h3>Archieved</h3>
+	<ul>
+		<% @archieved_projects.each do |project| %>
+			<li><%= project.name %></li>	
+		<% end %>
+	</ul>
+<% end %>
+
+<%= link_to "Back", clients_path %>

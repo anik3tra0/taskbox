@@ -1,0 +1,10 @@
+<h3>Taskbox</h3>
+
+<p><b>Some info</b></p>
+<ol>
+	<li>
+		Total Clients : <%= @clients_count %> - <%= link_to "view clients", clients_path %> | <%= link_to "Add Client", new_client_path %>
+	</li>
+	<li>Total Projects : <%= @projects_count %> </li>
+	<li>Total Tasks : <%= @tasks_count %> </li>
+</ol>

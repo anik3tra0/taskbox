@@ -1,0 +1,20 @@
+<h3>Total Projects - <%= @projects.size %></h3>
+<table border="1">
+<thead>
+	<tr>
+		<th>Sl No</th>
+		<th>Name</th>
+		<th>Client Name</th>
+		<th>Tasks Count</th>
+	</tr>
+</thead>
+<tbody>
+<% @projects.each_with_index do |project, index| %>
+	<tr>
+		<td><%= index + 1 %></td>
+		<td><%= project.name %></td>
+		<td><%= project.client.name %></td>
+		<td><%= project.tasks.size %></td>
+	</tr>
+<% end %>
+</tbody>

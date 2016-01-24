@@ -1,0 +1,49 @@
+<div class="col-md-8">
+<h3>Listing Projects</h3>
+<p><%= link_to "Export to excel", projects_path(format: "xls") %>
+<p>Total Projects : <%= @projects.size %></p>
+filter by: 
+<%= link_to "New", projects_path(status: "new") %> | 
+<%= link_to "Completed", projects_path(status: "completed") %> | 
+<%= link_to "All", projects_path %>
+
+
+<% data = {} %>
+<% data[:new] = @projects.where('status = ?', "new").count %>
+<% data[:completed] = @projects.where('status = ?', "completed").count %>
+<% data[:on_going] = @projects.where('status = ?', "on-going").count %>
+<% data[:archieved] = @projects.where('status = ?', "archieved").count %>
+
+<%= pie_chart(data) %>
+
+<table class="table table-stripped">
+<thead>
+	<tr>
+		<th>Name</th>
+		<th>Status</th>
+		<th>Client</th>
+	</tr>
+</thead>
+<tbody>
+	<% @projects.each do |project| %>
+	<tr>
+		<%# link_to project.name, "/projects/#{project.id}" %>
+		<td><%= link_to project.name, project_path(project) %></td>
+		<td><%= project.status %></td>
+		<td><%# project.client.nil? ? "N/A" : project.client.name %>
+				<%= project.client.try(:name) %>
+		</td>
+	</tr>
+	<% end %>
+</tbody>
+</table>
+
+<%= will_paginate %>
+
+<%= link_to "Add Project", new_project_path %>
+
+
+</div>
+<div class="col-md-4">
+<h3>Project Stat</h3>
+</div>

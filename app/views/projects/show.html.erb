@@ -1,0 +1,69 @@
+<h3><%= @project.name %></h3>
+<p><%= @project.client.name %> <%= link_to @project.client.website, "#{@project.client.website}", target: "_blank" %>
+<hr/>
+
+<h3>Total Tasks - <%= @project.tasks.size %></h3>
+<% over_due_tasks = @project.tasks.where('is_completed = ? AND due_date < ?', false, Date.today) %>
+<% upcomping_tasks = @project.tasks.where('is_completed = ? AND due_date >= ? AND due_date <= ?', false, Date.today, Date.today + 3.days) %>
+<% incomplete_tasks = @project.tasks.where('is_completed = ? AND due_date > ?', false, Date.today + 3.days) %>
+<% completed_tasks = @project.tasks.where('is_completed = ?', true) %>
+
+<% unless over_due_tasks.empty? %>
+	<h4>Over Due Tasks - <%= over_due_tasks.size %></h4>
+	<ul>
+		<% over_due_tasks.each do |task| %>
+			<li><%= task.name %> - <%= task.due_date.strftime("%A, %d %B %Y") %> 
+			<small><%= link_to "Mark as complete", tasks_mark_as_complete_path(task_id: task) %> </small>
+			</li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% unless upcomping_tasks.empty? %>
+	<h4>Upcoming Tasks - <%= upcomping_tasks.size %></h4>
+	<ul>
+		<% upcomping_tasks.each do |task| %>
+			<li><%= task.name %> - <%= task.due_date.strftime("%A, %d %B %Y") %> <small><%= link_to "Mark as complete", tasks_mark_as_complete_path(task_id: task) %> </small></li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% unless incomplete_tasks.empty? %>
+	<h4>Incomplete Tasks - <%= incomplete_tasks.size %></h4>
+	<ul>
+		<% incomplete_tasks.each do |task| %>
+			<li><%= task.name %> - <%= task.due_date.strftime("%A, %d %B %Y") %> <small><%= link_to "Mark as complete", tasks_mark_as_complete_path(task_id: task) %> </small></li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% unless completed_tasks.empty? %>
+	<h4>Completed Tasks - <%= completed_tasks.size %></h4>
+	<ul>
+		<% completed_tasks.each do |task| %>
+			<li><%= task.name %> - <%= task.due_date.strftime("%A, %d %B %Y") %> <small><%= link_to "Mark as incomplete", tasks_mark_as_incomplete_path(task_id: task) %> </small></li>
+		<% end %>
+	</ul>
+<% end %>
+
+
+
+<h3>Add Task</h3>
+<%= form_for @task do |f| %>
+
+<label>Name</label>
+<%= f.text_field :name, required: true %><br/>
+
+<label>Due Date</label>
+<%= f.date_select :due_date %><br/>
+
+<label>Is Completed? </label>
+<%= f.check_box :is_completed %><br/>
+
+<%= f.hidden_field :project_id, value: @project.id %>
+
+<%= f.submit %>
+
+<% end %>
+
+

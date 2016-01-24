@@ -1,0 +1,13 @@
+
+
+<h3>Listing Clients</h3>
+<ol>
+	<% @clients.each do |client| %>
+		<li><%= client.name %></li>
+		<ul>
+			<% client.list_projects.each do |project| %>
+				<li><%= project.details %></li>
+			<% end %>
+		</ul>
+	<% end %>
+</ol>

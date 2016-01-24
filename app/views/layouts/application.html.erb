@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Taskbox</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+  <%= csrf_meta_tags %>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+  <script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+<% if user_signed_in? %>
+	Welcome <%= current_user.email %>, <br/><br/>
+
+	<%= link_to "Dashboard", dashboard_index_path %> | 
+	<%= link_to "Clients", clients_path %> | 
+	<%= link_to "Projects", projects_path %> | 
+	<%= link_to "Account Setting", edit_user_registration_path %> | 
+	<%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+
+<% else %>
+	<%= link_to "Register", new_user_registration_path %> | <%= link_to "Login", new_user_session_path %>
+<% end %>
+<br/>
+<%= notice %>
+<%= alert %>
+
+<%= yield %>
+
+</div>
+
+</body>
+</html>

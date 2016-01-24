@@ -1,0 +1,35 @@
+  <script>
+  $(function() {
+    $("#datepicker").datepicker();
+  });
+  </script>
+
+<fieldset>
+	<legend><h3>Add Project</h3></legend>
+<%= form_for @project do |f| %>
+
+<label>Client </label><br/>
+<%= f.collection_select :client_id, Client.all, :id, :company, prompt: "Select Client" %><br/>
+
+<label>Name </label><br/>
+<%= f.text_field :name %><br/>
+
+<label>Description </label><br/>
+<%= f.text_area :description, rows: 5, cols: 25 %><br/>
+
+<label>Start Date</label><br/>
+<%# f.date_select :start_date, order:[:day, :month, :year], start_year: 2015, end_year: (Date.today.year + 3), include_blank: true %><br/>
+<%= f.text_field :start_date, id: "datepicker" %>
+
+<label>Status</label><br/>
+<%# f.select :status, %w[new on-going completed archieved], prompt: "Select Status" %><br/>
+
+<label>Status</label><br/>
+<%= f.radio_button :status, "new" %>New <br/>
+<%= f.radio_button :status, "on-going" %>On-Going <br/>
+<%= f.radio_button :status, "completed" %>Completed <br/>
+
+<%= f.submit "Submit", class: "btn btn-primary" %>
+
+<% end %>
+</fieldset>

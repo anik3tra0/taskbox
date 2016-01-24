@@ -1,0 +1,18 @@
+<h3>Dear <%= @task.project.client.name %> ( <%= @task.project.client.company%> ), </h3>
+
+<p>
+  Task = <%= @task.name %> belonging to <%= @task.project.name %> has been completed on <%= @task.updated_at.strftime("%A, %B %d %Y %H:%M %p") %> whose due date is on <%= @task.due_date.strftime("%A, %B %d %Y") %>.<br/>
+   <%= @task.due_date < Date.today ? "(overdue)" : "(within time)" %>.
+</p>
+
+<h3>Completed Tasks</h3>
+<ul>
+	<% Project.find(@task.project_id).tasks.where('is_completed = ?', true).each do |task| %>
+		<li><s><%= task.name %></s></li>
+	<% end %>
+</ul>
+
+<p>
+ Regards,<br/>
+ Taskbox Team 
+</p>
